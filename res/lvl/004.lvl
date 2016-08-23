@@ -1,0 +1,6 @@
+#battle
+img = boss3.png
+hp  = 15
+pos = 160, 120
+name = GURU
+move = 0

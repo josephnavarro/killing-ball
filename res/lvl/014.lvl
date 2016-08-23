@@ -1,0 +1,6 @@
+#battle
+img = boss1.png
+hp  = 25
+pos = 160, 120
+name = HAND
+move = 2

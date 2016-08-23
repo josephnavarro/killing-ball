@@ -1,0 +1,6 @@
+#battle
+img = boss4.png
+hp  = 20
+pos = 160, 120
+name = MASK
+move = 1
