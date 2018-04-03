@@ -15,7 +15,7 @@ class Main():
         pygame.mixer.pre_init(44100, -16, 2, 4096)
         pygame.init()
         pygame.display.set_caption('Killing Ball')
-        self.window = pygame.display.set_mode((WIDTH * 2, HEIGHT * 2), SWSURFACE)
+        self.window = pygame.display.set_mode((WIDTH * 2, HEIGHT * 2), SWSURFACE|NOFRAME)
         self.screen = pygame.Surface((WIDTH, HEIGHT)).convert()
         self.game_surf = pygame.Surface((WIDTH, HEIGHT)).convert()
         self.fade_mask = pygame.Surface((WIDTH, HEIGHT)).convert()
@@ -42,7 +42,7 @@ class Main():
         self.bullet_mask = pygame.mask.from_threshold(self.sheet.subsurface((72, 8, 8, 8)), (0, 0, 0, 255), (1, 1, 1, 255))
         self.bullet_mask.invert()
         self.panel_im = []
-        for x in xrange(4):
+        for x in range(4):
             im = self.sheet.subsurface((x * 32,
              32,
              32,
@@ -82,7 +82,7 @@ class Main():
             pygame.mixer.music.play(-1)
             self.is_boss_music = False
         f = open('res/lvl/%03d.lvl' % num).readlines()
-        for y in xrange(len(f)):
+        for y in range(len(f)):
             line = f[y].rstrip().lstrip()
             if line.startswith('#'):
                 string = line.lstrip('#').lstrip().rstrip()
@@ -93,7 +93,7 @@ class Main():
                 else:
                     self.background = pygame.image.load('res/img/%s' % string).convert()
             elif self.level_type == PUZZLE:
-                for x in xrange(len(line)):
+                for x in range(len(line)):
                     if int(line[x]) > 0:
                         panel = Panel(x * 40 + 4, (y - 2) * 40 + 4 + CEILING, int(line[x]))
                         self.panels.append(panel)
@@ -130,7 +130,7 @@ class Main():
             tick = self.clock.tick(FPS) / 1000.0
             self.screen.blit(self.title_im, (0, 0))
             timer = min(0.5, timer + tick)
-            for x in xrange(MENU_LENGTH + 1):
+            for x in range(MENU_LENGTH + 1):
                 self.menu_text[x].update(self.menu_text[x].text.lstrip('>').lstrip())
                 if x == self.menu_choice:
                     self.menu_text[x].update('>' + self.menu_text[x].text)
@@ -140,7 +140,7 @@ class Main():
             if timer == 0.5:
                 menu_rect = self.menu[0].get_rect(center=(WIDTH / 2, 196))
                 self.screen.blit(self.menu[0], menu_rect)
-                for i in xrange(MENU_LENGTH + 1):
+                for i in range(MENU_LENGTH + 1):
                     self.menu_text[i].draw(self.screen, (menu_rect.left + 12, menu_rect.top + 12 + i * 20))
 
             screen = pygame.transform.scale(self.screen, (WIDTH * 2, HEIGHT * 2))
@@ -195,7 +195,7 @@ class Main():
                 scores.append(new_score)
                 scores = sorted(scores)[::-1]
                 f.seek(0)
-                for x in xrange(SCORE_LENGTH):
+                for x in range(SCORE_LENGTH):
                     f.write('%08d\n' % scores[x])
 
                 f.truncate()
@@ -204,7 +204,7 @@ class Main():
                 f = open('res/dat/score.dat', 'w')
                 f.write('%08d\n' % new_score)
                 scores.append(new_score)
-                for x in xrange(1, SCORE_LENGTH):
+                for x in range(1, SCORE_LENGTH):
                     f.write('00000000\n')
                     scores.append(0)
 
@@ -218,7 +218,7 @@ class Main():
 
             except IOError:
                 f = open('res/dat/score.dat', 'w')
-                for x in xrange(SCORE_LENGTH):
+                for x in range(SCORE_LENGTH):
                     f.write('00000000\n')
                     scores.append(0)
 
@@ -240,7 +240,7 @@ class Main():
             self.screen.blit(self.hiscore_im, (0, 0))
             timer = min(0.5, timer + tick)
             has_highlighted = False
-            for x in xrange(SCORE_LENGTH):
+            for x in range(SCORE_LENGTH):
                 if not self.hiscore_text[x].text.startswith('('):
                     color = [255, 255, 255]
                     if new_score == int(self.hiscore_text[x].text) and not has_highlighted:
@@ -251,7 +251,7 @@ class Main():
             if timer == 0.5:
                 menu_rect = self.menu[1].get_rect(center=(WIDTH / 2, HEIGHT / 2))
                 self.screen.blit(self.menu[1], menu_rect)
-                for i in xrange(SCORE_LENGTH):
+                for i in range(SCORE_LENGTH):
                     self.hiscore_text[i].draw(self.screen, (menu_rect.left + 12, menu_rect.top + 12 + i * 20))
 
             screen = pygame.transform.scale(self.screen, (WIDTH * 2, HEIGHT * 2))
@@ -344,13 +344,13 @@ class Main():
         if self.mode == FSM_PAUSE:
             menu_rect = self.menu[0].get_rect(center=(WIDTH / 2, HEIGHT / 2))
             self.screen.blit(self.menu[0], menu_rect)
-            for i in xrange(MENU_LENGTH + 1):
+            for i in range(MENU_LENGTH + 1):
                 self.pause_text[i].draw(self.screen, (menu_rect.left + 12, menu_rect.top + 12 + i * 20))
 
         elif self.mode == FSM_GAMEOVER:
             menu_rect = self.menu[0].get_rect(center=(WIDTH / 2, HEIGHT / 2))
             self.screen.blit(self.menu[0], menu_rect)
-            for i in xrange(MENU_LENGTH + 1):
+            for i in range(MENU_LENGTH + 1):
                 self.game_over_text[i].draw(self.screen, (menu_rect.left + 12, menu_rect.top + 12 + i * 20))
 
         elif self.mode == FSM_VICTORY:
@@ -428,7 +428,7 @@ class Main():
                                 return False
 
             if self.mode == FSM_GAMEOVER:
-                for x in xrange(1, MENU_LENGTH + 1):
+                for x in range(1, MENU_LENGTH + 1):
                     self.game_over_text[x].update(self.game_over_text[x].text.lstrip('>').lstrip())
                     if x == self.menu_choice:
                         self.game_over_text[x].update('>' + self.game_over_text[x].text)
@@ -436,7 +436,7 @@ class Main():
                         self.game_over_text[x].update(' ' + self.game_over_text[x].text)
 
             elif self.mode == FSM_PAUSE:
-                for x in xrange(1, MENU_LENGTH + 1):
+                for x in range(1, MENU_LENGTH + 1):
                     self.pause_text[x].update(self.pause_text[x].text.lstrip('>').lstrip())
                     if x == self.menu_choice:
                         self.pause_text[x].update('>' + self.pause_text[x].text)

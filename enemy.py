@@ -25,7 +25,7 @@ class Enemy(object):
         self.hurt_sound = pygame.mixer.Sound('res/snd/BOSS_HURT.ogg')
 
     def set_image(self, img):
-        for x in xrange(2):
+        for x in range(2):
             im = img.subsurface(x * ENEMY_SIZE, 0, ENEMY_SIZE, ENEMY_SIZE)
             self.image.append(im)
 
